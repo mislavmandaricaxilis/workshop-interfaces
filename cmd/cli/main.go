@@ -1,7 +1,14 @@
 package main
 
-import "fmt"
+import (
+	"flag"
+	"fmt"
+)
+
+var ticketID = flag.Int("ticket", 0, "unique identifier for ticket")
 
 func main() {
-	fmt.Println("Hello Go")
+	flag.Parse()
+
+	fmt.Println(*ticketID)
 }
