@@ -20,3 +20,12 @@ func (r TicketRepository) Read(ticketID int) (domain.Ticket, error) {
 
 	return domain.Ticket{ticketID}, nil
 }
+
+func (r TicketRepository) Write(ticketID int) error {
+	sql := `
+		INSERT INTO tickets(id) VALUES (?)
+	`
+	fmt.Println(sql)
+
+	return nil
+}

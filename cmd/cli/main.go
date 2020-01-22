@@ -21,6 +21,6 @@ func main() {
 func bootstrap() App {
 	logger := workshop_interfaces_dependency.NewLoggerOneWay()
 	ticketRepository := database.NewTicketRepository()
-	ticketService := services.NewTicketService(ticketRepository, logger)
-	return NewApp(ticketService)
+	ticketService := services.NewTicketService(ticketRepository, ticketRepository, logger)
+	return NewApp(ticketService, ticketService)
 }

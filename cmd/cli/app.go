@@ -10,14 +10,20 @@ type TicketGetter interface {
 	GetTicketByID(ticketID int) (domain.Ticket, error)
 }
 
-func NewApp(ticketGetter TicketGetter) App {
+type TicketSaver interface {
+	SaveTicketWithID(ticketID int) error
+}
+
+func NewApp(ticketGetter TicketGetter, ticketSaver TicketSaver) App {
 	return App{
 		ticketGetter: ticketGetter,
+		ticketSaver: ticketSaver,
 	}
 }
 
 type App struct{
 	ticketGetter TicketGetter
+	ticketSaver TicketSaver
 }
 
 func (a App) Handle(action string, ticketID int) {
@@ -31,6 +37,11 @@ func (a App) Handle(action string, ticketID int) {
 		fmt.Println(ticket)
 		return
 	case "save":
-		panic("Not implemented")
+		err := a.ticketSaver.SaveTicketWithID(ticketID)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		return
 	}
 }

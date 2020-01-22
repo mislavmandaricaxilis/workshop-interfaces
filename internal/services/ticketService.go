@@ -14,15 +14,21 @@ type DatabaseReader interface {
 	Read(ticketID int) (domain.Ticket, error)
 }
 
-func NewTicketService(databaseReader DatabaseReader, logger Logger) TicketService {
+type DatabaseWriter interface {
+	Write(ticketID int) error
+}
+
+func NewTicketService(databaseReader DatabaseReader, databaseWriter DatabaseWriter, logger Logger) TicketService {
 	return TicketService{
 		databaseReader: databaseReader,
+		databaseWriter: databaseWriter,
 		logger: logger,
 	}
 }
 
 type TicketService struct {
 	databaseReader DatabaseReader
+	databaseWriter DatabaseWriter
 	logger Logger
 }
 
@@ -38,4 +44,17 @@ func (s TicketService) GetTicketByID(ticketID int) (domain.Ticket, error) {
 	}
 
 	return ticket, nil
+}
+
+func (s TicketService) SaveTicketWithID(ticketID int) error {
+	if ticketID == 0 {
+		return  errors.New("can't save ticket with ID 0")
+	}
+
+	err := s.databaseWriter.Write(ticketID)
+	if err != nil {
+		return errors.New("error with writing to database")
+	}
+
+	return nil
 }
