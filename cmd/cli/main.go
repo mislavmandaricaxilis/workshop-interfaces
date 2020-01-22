@@ -2,8 +2,9 @@ package main
 
 import (
 	"flag"
+	"github.com/mislavmandaricaxilis/workshop-interfaces/internal/domain"
 
-	"github.com/mislavmandaricaxilis/workshop-interfaces-dependency"
+	"github.com/mislavmandaricaxilis/workshop-interfaces-dependency/v2"
 	"github.com/mislavmandaricaxilis/workshop-interfaces/internal/database"
 	"github.com/mislavmandaricaxilis/workshop-interfaces/internal/services"
 )
@@ -19,7 +20,8 @@ func main() {
 }
 
 func bootstrap() App {
-	logger := workshop_interfaces_dependency.NewLoggerOneWay()
+	loggerV2 := workshop_interfaces_dependency.NewLoggerOneWay()
+	logger := domain.NewLogger(loggerV2)
 	ticketRepository := database.NewTicketRepository()
 	ticketService := services.NewTicketService(ticketRepository, ticketRepository, logger)
 	return NewApp(ticketService, ticketService)

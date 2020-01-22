@@ -6,10 +6,6 @@ import (
 	"github.com/mislavmandaricaxilis/workshop-interfaces/internal/domain"
 )
 
-type Logger interface {
-	Log(s string)
-}
-
 type DatabaseReader interface {
 	Read(ticketID int) (domain.Ticket, error)
 }
@@ -18,7 +14,7 @@ type DatabaseWriter interface {
 	Write(ticketID int) error
 }
 
-func NewTicketService(databaseReader DatabaseReader, databaseWriter DatabaseWriter, logger Logger) TicketService {
+func NewTicketService(databaseReader DatabaseReader, databaseWriter DatabaseWriter, logger domain.Logger) TicketService {
 	return TicketService{
 		databaseReader: databaseReader,
 		databaseWriter: databaseWriter,
@@ -29,7 +25,7 @@ func NewTicketService(databaseReader DatabaseReader, databaseWriter DatabaseWrit
 type TicketService struct {
 	databaseReader DatabaseReader
 	databaseWriter DatabaseWriter
-	logger Logger
+	logger domain.Logger
 }
 
 func (s TicketService) GetTicketByID(ticketID int) (domain.Ticket, error) {
