@@ -2,7 +2,10 @@ package main
 
 import (
 	"flag"
-	"github.com/mislavmandaricaxilis/workshop-interfaces/internal/domain"
+
+	"github.com/mislavmandaricaxilis/workshop-interfaces-dependency"
+	"github.com/mislavmandaricaxilis/workshop-interfaces/internal/database"
+	"github.com/mislavmandaricaxilis/workshop-interfaces/internal/services"
 )
 
 var action = flag.String("action", "get", "action to do on a ticket")
@@ -16,6 +19,8 @@ func main() {
 }
 
 func bootstrap() App {
-	ticketService := domain.NewTicketService()
+	logger := workshop_interfaces_dependency.NewLoggerOneWay()
+	ticketRepository := database.NewTicketRepository()
+	ticketService := services.NewTicketService(ticketRepository, logger)
 	return NewApp(ticketService)
 }

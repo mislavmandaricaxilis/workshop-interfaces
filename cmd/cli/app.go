@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/mislavmandaricaxilis/workshop-interfaces/internal/domain"
 )
 
