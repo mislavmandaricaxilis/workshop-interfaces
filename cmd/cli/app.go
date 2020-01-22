@@ -8,6 +8,7 @@ func NewApp() App {
 
 type App struct{}
 
-func (a App) Handle(ticketID int) {
+func (a App) Handle(action string, ticketID int) {
+	fmt.Println(action)
 	fmt.Println(ticketID)
 }
