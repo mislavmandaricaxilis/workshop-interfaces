@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"github.com/mislavmandaricaxilis/workshop-interfaces/internal/domain"
 )
 
 var action = flag.String("action", "get", "action to do on a ticket")
@@ -15,5 +16,6 @@ func main() {
 }
 
 func bootstrap() App {
-	return NewApp()
+	ticketService := domain.NewTicketService()
+	return NewApp(ticketService)
 }
